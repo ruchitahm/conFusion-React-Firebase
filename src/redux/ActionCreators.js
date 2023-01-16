@@ -114,6 +114,10 @@ export const fetchPromos = () => (dispatch) => {
         .then(promos => dispatch(addPromos(promos)))
         .catch(error => dispatch(promosFailed(error.message)));
 }
+export const addPromos = (promos) => ({
+    type: ActionTypes.ADD_PROMOS,
+    payload: promos
+});
 
 export const promosLoading = () => ({
     type: ActionTypes.PROMOS_LOADING
@@ -124,29 +128,22 @@ export const promosFailed = (errmess) => ({
     payload: errmess
 });
 
-export const addPromos = (promos) => ({
-    type: ActionTypes.ADD_PROMOS,
-    payload: promos
-});
-
 export const fetchLeaders = () => (dispatch) => {
-    
-    dispatch(leadersLoading());
+    dispatch(leadersLoading(true));
 
     return firestore.collection('leaders').get()
-    .then(snapshot => {
-        let leaders = [];
-        snapshot.forEach(doc => {
-            const data = doc.data()
-            const _id = doc.id
-            leaders.push({_id, ...data });
-        });
-        return leaders;
-    })
-    .then(leaders => dispatch(addLeaders(leaders)))
-    .catch(error => dispatch(leadersFailed(error.message)));
+        .then(snapshot => {
+            let leaders = [];
+            snapshot.forEach(doc => {
+                const data = doc.data()
+                const _id = doc.id
+                leaders.push({_id, ...data });
+            });
+            return leaders;
+        })
+        .then(leaders => dispatch(addLeaders(leaders)))
+        .catch(error => dispatch(leadersFailed(error.message)))
 }
-
 export const leadersLoading = () => ({
     type: ActionTypes.LEADERS_LOADING
 });
@@ -160,6 +157,40 @@ export const addLeaders = (leaders) => ({
     type: ActionTypes.ADD_LEADERS,
     payload: leaders
 });
+
+
+
+// export const fetchLeaders = () => (dispatch) => {
+    
+//     dispatch(leadersLoading(true));
+
+//     return firestore.collection('leaders').get()
+//     .then(snapshot => {
+//         let leaders = [];
+//         snapshot.forEach(doc => {
+//             const data = doc.data()
+//             const _id = doc.id
+//             leaders.push({_id, ...data });
+//         });
+//         return leaders;
+//     })
+//     .then(leaders => dispatch(addLeaders(leaders)))
+//     .catch(error => dispatch(leadersFailed(error.message)));
+// }
+
+// export const leadersLoading = () => ({
+//     type: ActionTypes.LEADERS_LOADING
+// });
+
+// export const leadersFailed = (errmess) => ({
+//     type: ActionTypes.LEADERS_FAILED,
+//     payload: errmess
+// });
+
+// export const addLeaders = (leaders) => ({
+//     type: ActionTypes.ADD_LEADERS,
+//     payload: leaders
+// });
 
 export const postFeedback = (feedback) => (dispatch) => {
         

@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
   resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
   fetchComments: () => {dispatch(fetchComments())},
   fetchPromos: () => {dispatch(fetchPromos())},
-  fetchLeaders: () => dispatch(fetchLeaders()),
+  fetchLeaders: () => {dispatch(fetchLeaders())},
   postFeedback: (feedback) => dispatch(postFeedback(feedback)),
   loginUser: (creds) => dispatch(loginUser(creds)),
   logoutUser: () => dispatch(logoutUser()),
@@ -65,8 +65,8 @@ class Main extends Component {
           promosLoading={this.props.promotions.isLoading}
           promosErrMess={this.props.promotions.errMess}
           leader={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
-          leaderLoading={this.props.leaders.isLoading}
-          leaderErrMess={this.props.leaders.errMess}
+          leadersLoading={this.props.leaders.isLoading}
+          leadersErrMess={this.props.leaders.errMess}
         />
       );
     }
@@ -119,7 +119,8 @@ class Main extends Component {
           <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
             <Switch>
               <Route path="/home" component={HomePage} />
-              <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} />} />
+              {/* <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} /> */}
+              <Route exact path='/aboutus' component={() => <About leaders = {this.props.leaders}/> } /> 
               <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} />} />
               <Route path="/menu/:dishId" component={DishWithId} />
               <PrivateRoute exact path="/favorites" component={() => <Favorites favorites={this.props.favorites} dishes={this.props.dishes} deleteFavorite={this.props.deleteFavorite} />} />
